@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { 
+import {
   Home,
   Users,
   UserCheck,
@@ -12,8 +12,6 @@ import {
   Building,
   Settings,
   X,
-  ChevronLeft,
-  ChevronRight
 } from 'lucide-react';
 import { cn } from '@/utils';
 import { useAuth } from '@/contexts/simple-store';
@@ -63,74 +61,65 @@ export function Sidebar({ isOpen, isCollapsed, onClose }: SidebarProps) {
     <>
       {/* Mobile overlay */}
       {isOpen && (
-        <div 
-          className='fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden'
-          onClick={onClose}
-        />
+        <div className='bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden' onClick={onClose} />
       )}
 
       {/* Sidebar */}
-      <div className={cn(
-        'fixed top-0 left-0 z-50 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300',
-        'lg:translate-x-0',
-        isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
-        isCollapsed ? 'w-20' : 'w-64'
-      )}>
+      <div
+        className={cn(
+          'fixed top-0 left-0 z-50 h-full border-r border-gray-200 bg-white transition-all duration-300 dark:border-gray-700 dark:bg-gray-800',
+          'lg:translate-x-0',
+          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+          isCollapsed ? 'w-20' : 'w-64'
+        )}
+      >
         {/* Header */}
-        <div className='flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700'>
+        <div className='flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-700'>
           {!isCollapsed && (
             <div className='flex items-center gap-3'>
-              <div className='w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center'>
-                <Building className='w-5 h-5 text-white' />
+              <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600'>
+                <Building className='h-5 w-5 text-white' />
               </div>
-              <span className='text-lg font-bold text-gray-900 dark:text-white'>
-                BoraProCT
-              </span>
+              <span className='text-lg font-bold text-gray-900 dark:text-white'>BoraProCT</span>
             </div>
           )}
-          
+
           {/* Mobile close button */}
           <button
             onClick={onClose}
-            className='lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700'
+            className='rounded-lg p-2 hover:bg-gray-100 lg:hidden dark:hover:bg-gray-700'
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className='flex-1 p-4 space-y-2 overflow-y-auto'>
-          {filteredNavItems.map((item) => (
+        <nav className='flex-1 space-y-2 overflow-y-auto p-4'>
+          {filteredNavItems.map(item => (
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
               className={cn(
-                'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left',
+                'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors',
                 activeTab === item.id
                   ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
+                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700',
                 isCollapsed && 'justify-center'
               )}
               title={isCollapsed ? item.label : undefined}
             >
               {item.icon}
-              {!isCollapsed && (
-                <span className='font-medium'>{item.label}</span>
-              )}
+              {!isCollapsed && <span className='font-medium'>{item.label}</span>}
             </button>
           ))}
         </nav>
 
         {/* Footer */}
-        <div className='p-4 border-t border-gray-200 dark:border-gray-700'>
+        <div className='border-t border-gray-200 p-4 dark:border-gray-700'>
           {!isCollapsed && (
             <div className='text-center'>
-              <p className='text-xs text-gray-500 dark:text-gray-400'>
-                © 2025 BoraProCT
-              </p>
-              <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
-                v2.0.0 - Refatorado
-              </p>
+              <p className='text-xs text-gray-500 dark:text-gray-400'>© 2025 BoraProCT</p>
+              <p className='mt-1 text-xs text-gray-500 dark:text-gray-400'>v2.0.0 - Refatorado</p>
             </div>
           )}
         </div>

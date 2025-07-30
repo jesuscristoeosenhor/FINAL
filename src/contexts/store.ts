@@ -12,7 +12,6 @@ import type {
   Plan,
   Product,
   Platform,
-  Attendance,
   Goal,
   QuadraRental,
   CartItem,
@@ -120,9 +119,7 @@ const mockData = {
     },
   ] as Product[],
 
-  platforms: [
-    { id: 1, nome: 'Wellhub (Gympass)', valorPorAluno: 45.5, ativo: true },
-  ] as Platform[],
+  platforms: [{ id: 1, nome: 'Wellhub (Gympass)', valorPorAluno: 45.5, ativo: true }] as Platform[],
 };
 
 interface AppStoreActions {
@@ -371,9 +368,7 @@ export const useAppStore = create<AppStore>()(
         return;
       }
       set({
-        cart: get().cart.map(item =>
-          item.productId === productId ? { ...item, quantity } : item
-        ),
+        cart: get().cart.map(item => (item.productId === productId ? { ...item, quantity } : item)),
       });
     },
     clearCart: () => set({ cart: [] }),
@@ -390,9 +385,7 @@ export const useAppStore = create<AppStore>()(
       storage.set('notifications', notifications);
     },
     markNotificationAsRead: (id: number) => {
-      const notifications = get().notifications.map(n =>
-        n.id === id ? { ...n, read: true } : n
-      );
+      const notifications = get().notifications.map(n => (n.id === id ? { ...n, read: true } : n));
       set({ notifications });
       storage.set('notifications', notifications);
     },

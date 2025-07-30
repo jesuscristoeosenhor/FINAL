@@ -43,29 +43,27 @@ export function generateId(): number {
 /**
  * Debounce function for search inputs
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
   let timeoutId: NodeJS.Timeout;
   return (...args: Parameters<T>) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(null, args), delay);
+    timeoutId = setTimeout(() => func(...args), delay);
   };
 }
 
 /**
  * Convert array of objects to CSV format
  */
-export function convertToCSV(data: Record<string, any>[]): string {
+export function convertToCSV(data: Record<string, unknown>[]): string {
   if (!data.length) return '';
 
   const headers = Object.keys(data[0]).join(',');
   const rows = data.map(row =>
     Object.values(row)
-      .map(value =>
-        typeof value === 'string' && value.includes(',') ? `"${value}"` : value
-      )
+      .map(value => (typeof value === 'string' && value.includes(',') ? `"${value}"` : value))
       .join(',')
   );
 
@@ -75,7 +73,7 @@ export function convertToCSV(data: Record<string, any>[]): string {
 /**
  * Export data as CSV file
  */
-export function exportToCSV(data: Record<string, any>[], filename: string): void {
+export function exportToCSV(data: Record<string, unknown>[], filename: string): void {
   try {
     const csv = convertToCSV(data);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -182,13 +180,13 @@ export function isValidPhone(phone: string): boolean {
  */
 export function formatPhone(phone: string): string {
   const cleanPhone = phone.replace(/\D/g, '');
-  
+
   if (cleanPhone.length === 10) {
     return cleanPhone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
   } else if (cleanPhone.length === 11) {
     return cleanPhone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
   }
-  
+
   return phone;
 }
 
